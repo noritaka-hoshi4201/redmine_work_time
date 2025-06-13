@@ -49,3 +49,10 @@ td.wt_iss_assigned_overdue {
 td.wt_iss_assigned_overdue_worked {
   background: #fcf;
 }
+.btn{
+  height: 30px;
+  background-color: #ddffdd;
+  font-weight: bold;
+  color:#116699;
+  cursor: pointer;
+}
