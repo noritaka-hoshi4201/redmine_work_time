@@ -735,7 +735,7 @@ private
               where(["user_issue_months.uid=:u",{:u=>@this_uid}]).
               all
           issues.each do |issue|
-            if issue.tracker.id == 5 then
+            if issue.tracker.id == 5 or issue.tracker.id == 16 then
               tgt = UserIssueMonth.
                   where(["uid=:u and issue=:i",{:u=>@this_uid,:i=>issue.id}]).first
               tgt.destroy
