@@ -64,6 +64,10 @@
                onclick="location.href='<%=url_for(@link_params.merge(:ticket_del=>"closed"))%>'"
                value="<%=l(:wt_delete_closed_tickets)%>"
         />
+        <input type="button" class="btn btn_del_info"
+               onclick="location.href='<%=url_for(@link_params.merge(:ticket_del=>"ticket_info"))%>'"
+               value="情報チケット削除"
+        />
 <%end%>
 
     <%= render :partial=>'user_day_table' %>
@@ -74,6 +78,10 @@
         <input type="button" class="btn btn_del_closed"
                onclick="location.href='<%=url_for(@link_params.merge(:ticket_del=>"closed"))%>'"
                value="<%=l(:wt_delete_closed_tickets)%>"
+        />
+        <input type="button" class="btn btn_del_info"
+               onclick="location.href='<%=url_for(@link_params.merge(:ticket_del=>"ticket_info"))%>'"
+               value="情報チケット削除"
         />
         <div id="add_ticket_area" style="display: inline-block;_display: inline;">
           <input type="button" class="btn btn_add_ticket"
