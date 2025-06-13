@@ -728,6 +728,7 @@ private
             end
           end
           return
+      end
       if params["ticket_del"]=="ticket_info" then # 情報チケット全削除の場合
           issues = Issue.
               joins("INNER JOIN user_issue_months ON user_issue_months.issue=issues.id").
