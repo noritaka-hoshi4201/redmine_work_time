@@ -10,12 +10,12 @@
 <%end%>
   <%if User.current.admin then%>
       <%if WtHolidays.where(["holiday=:h and deleted_on is null",{:h=>@this_date}]).all.size == 0 then %>
-          <input type="button"
+          <input type="button" class="btn btn_set_holiday"
                  onclick="location.href='<%=url_for(@link_params.merge(:set_holiday=>@this_date))%>'"
                  value="<%=l(:wt_set_holiday)%>"
           />
       <%else%>
-          <input type="button"
+          <input type="button" class="btn btn_del_holiday"
                  onclick="location.href='<%=url_for(@link_params.merge(:del_holiday=>@this_date))%>'"
                  value="<%=l(:wt_del_holiday)%>"
           />
@@ -55,17 +55,27 @@
         </tr>
       </table>
     </td></tr></table>
+
+<%if @this_uid==@crnt_uid || User.current.allowed_to?(:edit_work_time_other_member, @project) %>
+        <input class="btn btn_update" type="button" onclick="$(window).off('beforeunload'); window.onbeforeunload = null; submit();" value="<%= l(:wt_update) %>" />
+        &#58;
+        <input type="button" class="btn btn_del_closed"
+               onclick="location.href='<%=url_for(@link_params.merge(:ticket_del=>"closed"))%>'"
+               value="<%=l(:wt_delete_closed_tickets)%>"
+        />
+<%end%>
+
     <%= render :partial=>'user_day_table' %>
 
 <%if @this_uid==@crnt_uid || User.current.allowed_to?(:edit_work_time_other_member, @project) %>
-        <input type="button" onclick="$(window).off('beforeunload'); window.onbeforeunload = null; submit();" value="<%= l(:wt_update) %>" />
+        <input class="btn btn_update" type="button" onclick="$(window).off('beforeunload'); window.onbeforeunload = null; submit();" value="<%= l(:wt_update) %>" />
         &#58;
-        <input type="button"
+        <input type="button" class="btn btn_del_closed"
                onclick="location.href='<%=url_for(@link_params.merge(:ticket_del=>"closed"))%>'"
                value="<%=l(:wt_delete_closed_tickets)%>"
         />
         <div id="add_ticket_area" style="display: inline-block;_display: inline;">
-          <input type="button"
+          <input type="button" class="btn btn_add_ticket"
                onclick="jQuery.ajax({
                        url: '<%=url_for(:action=>"ajax_add_tickets_input")%>',
                        data:{asynchronous:true, method:'get'},
