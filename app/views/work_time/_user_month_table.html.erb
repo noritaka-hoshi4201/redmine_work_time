@@ -245,11 +245,11 @@ end
   </td>
 </tr>
 </table>
-<input type="button"
+<input type="button" class="btn btn_member_monthly_data"
        onclick="location.href='<%=url_for(@link_params.merge(:action=>"member_monthly_data"))%>'"
        value="<%=l(:wt_data_download)%>"
 />
-<input type="button"
+<input type="button" class="btn btn_member_monthly_data_table"
        onclick="location.href='<%=url_for(@link_params.merge(:action=>"member_monthly_data_table"))%>'"
        value="<%=l(:wt_data_download_table)%>"
 />
