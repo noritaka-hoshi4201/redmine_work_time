@@ -731,9 +731,10 @@ private
       end
       if params["ticket_del"]=="ticket_info" then # 情報チケット全削除の場合
           issues = Issue.
-              joins("INNER JOIN user_issue_months ON user_issue_months.issue=issues.id").
+              # joins("INNER JOIN user_issue_months ON user_issue_months.issue=issues.id").
               where(["user_issue_months.uid=:u",{:u=>@this_uid}]).
               all
+          Rails.logger.debug issues
           issues.each do |issue|
             if issue.tracker.id == 5 or issue.tracker.id == 16 then
               tgt = UserIssueMonth.
