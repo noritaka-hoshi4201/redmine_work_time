@@ -1335,6 +1335,7 @@ private
       end
     end
 
+    ###################################################
     # この日のチケット作成を洗い出す
     next_date = @this_date+1
     t1 = Time.local(@this_date.year, @this_date.month, @this_date.day)
@@ -1357,14 +1358,16 @@ private
         issue_pack[:css_classes] = 'wt_iss_worked'
       end
     end
+    ####################################################
     issues = Issue.
         joins("INNER JOIN issue_statuses ist on ist.id = issues.status_id ").
         joins("LEFT JOIN groups_users on issues.assigned_to_id = group_id").
         where(["1 = 1 and
                 (  (issues.assigned_to_id = :u or groups_users.user_id = :u) and
                    issues.start_date < :t2 and
+                   (issues.due_date is not null and issues.due_date >= expire_date) and
                    ist.is_closed = :closed
-                )", {:u => @this_uid, :t2 => t2, :closed => false}]).
+                )", {:u => @this_uid, :t2 => t2, :closed => false, :expire_date => @expire_date}]).
         all
     issues.each do |issue|
       next if @restrict_project && @restrict_project!=issue.project.id
