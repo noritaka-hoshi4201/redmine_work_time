@@ -1365,9 +1365,8 @@ private
         where(["1 = 1 and
                 (  (issues.assigned_to_id = :u or groups_users.user_id = :u) and
                    issues.start_date < :t2 and
-                   (issues.due_date is not null and issues.due_date >= expire_date) and
                    ist.is_closed = :closed
-                )", {:u => @this_uid, :t2 => t2, :closed => false, :expire_date => @expire_date}]).
+                )", {:u => @this_uid, :t2 => t2, :closed => false}]).
         all
     issues.each do |issue|
       next if @restrict_project && @restrict_project!=issue.project.id
