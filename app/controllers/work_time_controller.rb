@@ -1340,6 +1340,7 @@ private
     next_date = @this_date+1
     t1 = Time.local(@this_date.year, @this_date.month, @this_date.day)
     t2 = Time.local(next_date.year, next_date.month, next_date.day)
+    t3 = Time.local(@expire_date.year, @expire_date.month, @expire_date.day)
     issues = Issue.where(["(author_id = :u and created_on >= :t1 and created_on < :t2) or "+
                               "id in (select journalized_id from journals where journalized_type = 'Issue' and "+
                               "user_id = :u and created_on >= :t1 and created_on < :t2 group by journalized_id)",
@@ -1365,8 +1366,9 @@ private
         where(["1 = 1 and
                 (  (issues.assigned_to_id = :u or groups_users.user_id = :u) and
                    issues.start_date < :t2 and
+                   (issues.due_date is not null and issues.due_date >= :t3) and
                    ist.is_closed = :closed
-                )", {:u => @this_uid, :t2 => t2, :closed => false}]).
+                )", {:u => @this_uid, :t2 => t2, :t3 => t3, :closed => false}]).
         all
     issues.each do |issue|
       next if @restrict_project && @restrict_project!=issue.project.id
