@@ -590,7 +590,9 @@ private
     month = params.key?(:month) ? params[:month].to_i : @today.month
     day = params.key?(:day) ? params[:day].to_i : @today.day
     @this_date = Date.new(year, month, day)
-    display_date = @this_date
+    # 期限切れ担当チケットの有効期限は、期限切れ後30日間
+    @expire_date = @this_date - 30
+    display_date = @this_date    
     display_date <<= 1 if day < @account_start_day
     @display_year = display_date.year
     @display_month = display_date.month
@@ -1349,6 +1351,7 @@ private
       prj_pack = make_pack_prj(@day_pack, issue.project)
       issue_pack = make_pack_issue(prj_pack, issue)
       if issue_pack[:css_classes] == 'wt_iss_overdue'
+        # 期限切れで本日アクションのあるチケット
         issue_pack[:css_classes] = 'wt_iss_overdue_worked'
       else
         issue_pack[:css_classes] = 'wt_iss_worked'
@@ -1421,7 +1424,11 @@ private
                       :cnt_childrens=>0}
         issue_pack[:total_by_day].default = 0
         if !new_issue.due_date.nil? && new_issue.due_date < @this_date.to_datetime
-          issue_pack[:css_classes] = 'wt_iss_overdue'
+          # 期限切れ
+          if new_issue.due_date >= @expire_date.to_datetime
+            # 30日以内に期限切れしたチケット
+            issue_pack[:css_classes] = 'wt_iss_overdue'
+          end
         else
           issue_pack[:css_classes] = 'wt_iss_default'
         end
