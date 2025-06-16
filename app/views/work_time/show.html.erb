@@ -3,6 +3,7 @@
 
 <%= @message.html_safe %>
 <div class="contextual">
+<span class="manual"><a href="/issues/9919" taget=_blank>工数管理マニュアル</a>
 <%= render :partial=>'select_project' %>
 <%if User.current.allowed_to?(:view_work_time_other_member, @project) then%>
   <%= render :partial=>'select_user', :locals=>{:link_params=>@link_params} %>
